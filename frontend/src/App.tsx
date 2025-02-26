@@ -1,5 +1,6 @@
 import React from 'react';
 import TenantList from './components/TenantList';
+import './App.css';
 
 const App: React.FC = () => {
   return (
