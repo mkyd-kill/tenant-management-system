@@ -3,6 +3,9 @@ import { Tenant } from "../types/tenant";
 
 const API_URL = 'http://localhost:8000/api/tenants/';
 
+// Fetching data from the backend url
+// Using simple CRUD operations
+
 export const getTenants = async (): Promise<Tenant[]> => {
     const response = await axios.get(API_URL);
     return response.data;

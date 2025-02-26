@@ -1,3 +1,4 @@
+// setting up the tenant interface/model
 export interface Tenant {
     id: number;
     name: string;
