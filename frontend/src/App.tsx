@@ -6,14 +6,15 @@ import 'react-toastify/dist/ReactToastify.css';
 import './styles/App.css';
 
 const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('token'));
+  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('accessToken'));
 
   const handleLogin = () => {
     setIsAuthenticated(true);
   };
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
     setIsAuthenticated(false);
   };
 
