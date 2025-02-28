@@ -1,7 +1,8 @@
-import React, { useState } from "react";
-import { Tenant } from "../types/tenant";
-import { createTenant, updateTenant } from "../services/api";
-import "./TenantForm.css";
+import React, { useState } from 'react';
+import { Tenant } from '../types/tenant';
+import { createTenant, updateTenant } from '../services/api';
+import { toast } from 'react-toastify';
+import '../styles/TenantForm.css';
 
 interface TenantFormProps {
   tenant?: Tenant;
@@ -9,21 +10,19 @@ interface TenantFormProps {
 }
 
 const TenantForm: React.FC<TenantFormProps> = ({ tenant, onSave }) => {
-  const [formData, setFormData] = useState<Partial<Tenant>>(
-    tenant || {
-      name: "",
-      email: "",
-      phone: "",
-      move_in_date: "",
-      is_active: true,
-    }
-  );
+  const [formData, setFormData] = useState<Partial<Tenant>>(tenant || {
+    name: '',
+    email: '',
+    phone: '',
+    move_in_date: '',
+    is_active: true,
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
+    setFormData(prev => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === 'checkbox' ? checked : value,
     }));
   };
 
@@ -32,77 +31,45 @@ const TenantForm: React.FC<TenantFormProps> = ({ tenant, onSave }) => {
     try {
       if (tenant?.id) {
         await updateTenant(tenant.id, formData);
+        toast.success('Tenant updated successfully');
       } else {
-        await createTenant(formData as Omit<Tenant, "id" | "created_at">);
+        await createTenant(formData as Omit<Tenant, 'id' | 'created_at'>);
+        toast.success('Tenant added successfully');
       }
       onSave();
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        move_in_date: "",
-        is_active: true,
-      });
+      setFormData({ name: '', email: '', phone: '', move_in_date: '', is_active: true });
     } catch (error) {
-      console.error("Error saving tenant:", error);
+      toast.error((error as Error).message);
     }
   };
 
   return (
     <form className="tenant-form" onSubmit={handleSubmit}>
-      <h3>{tenant ? "Edit Tenant" : "Add New Tenant"}</h3>
+      <h3>{tenant ? 'Edit Tenant' : 'Add New Tenant'}</h3>
       <div className="form-group">
         <label>Name</label>
-        <input
-          type="text"
-          name="name"
-          value={formData.name || ""}
-          onChange={handleChange}
-          required
-        />
+        <input type="text" name="name" value={formData.name || ''} onChange={handleChange} required />
       </div>
       <div className="form-group">
         <label>Email</label>
-        <input
-          type="email"
-          name="email"
-          value={formData.email || ""}
-          onChange={handleChange}
-          required
-        />
+        <input type="email" name="email" value={formData.email || ''} onChange={handleChange} required />
       </div>
       <div className="form-group">
         <label>Phone</label>
-        <input
-          type="text"
-          name="phone"
-          value={formData.phone || ""}
-          onChange={handleChange}
-        />
+        <input type="text" name="phone" value={formData.phone || ''} onChange={handleChange} />
       </div>
       <div className="form-group">
         <label>Move-In Date</label>
-        <input
-          type="date"
-          name="move_in_date"
-          value={formData.move_in_date || ""}
-          onChange={handleChange}
-          required
-        />
+        <input type="date" name="move_in_date" value={formData.move_in_date || ''} onChange={handleChange} required />
       </div>
       <div className="form-group">
         <label>
-          <input
-            type="checkbox"
-            name="is_active"
-            checked={formData.is_active || false}
-            onChange={handleChange}
-          />
+          <input type="checkbox" name="is_active" checked={formData.is_active || false} onChange={handleChange} />
           Active
         </label>
       </div>
       <button type="submit" className="btn btn-primary">
-        {tenant ? "Update" : "Add"} Tenant
+        {tenant ? 'Update' : 'Add'} Tenant
       </button>
     </form>
   );
