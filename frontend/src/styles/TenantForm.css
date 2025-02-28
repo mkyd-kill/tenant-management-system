@@ -44,3 +44,9 @@ input[type="checkbox"] {
 .btn-primary:hover {
   background-color: #0056b3;
 }
+
+.error {
+  color: #dc3545;
+  font-size: 0.9em;
+  margin-top: 5px;
+}

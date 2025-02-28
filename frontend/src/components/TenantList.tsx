@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Tenant } from '../types/tenant';
 import { getTenants, deleteTenant } from '../services/api';
 import TenantForm from './TenantForm';
+import Spinner from './Spinner';
 import { toast } from 'react-toastify';
 import '../styles/TenantList.css';
 
@@ -45,7 +46,7 @@ const TenantList: React.FC = () => {
       <h2>Tenant List</h2>
       <TenantForm onSave={fetchTenants} tenant={editingTenant} />
       {loading ? (
-        <p>Loading...</p>
+        <Spinner />
       ) : (
         <table>
           <thead>
