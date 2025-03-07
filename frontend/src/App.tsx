@@ -1,39 +1,35 @@
-import React, { useState } from 'react';
-import TenantList from './components/TenantList';
-import Login from './components/Login';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import './styles/App.css';
+import { useState } from 'react'
+import reactLogo from './assets/react.svg'
+import viteLogo from '/vite.svg'
+import './App.css'
 
-const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('accessToken'));
-
-  const handleLogin = () => {
-    setIsAuthenticated(true);
-  };
-
-  const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    setIsAuthenticated(false);
-  };
+function App() {
+  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <h1>Tenant Management System</h1>
-      {isAuthenticated ? (
-        <>
-          <button onClick={handleLogout} className="btn btn-primary" style={{ marginBottom: '20px' }}>
-            Logout
-          </button>
-          <TenantList />
-        </>
-      ) : (
-        <Login onLogin={handleLogin} />
-      )}
-      <ToastContainer position="top-right" autoClose={3000} />
-    </div>
-  );
-};
+    <>
+      <div>
+        <a href="https://vite.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.tsx</code> and save to test HMR
+        </p>
+      </div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </>
+  )
+}
 
-export default App;
+export default App
