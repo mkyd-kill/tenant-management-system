@@ -1,6 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
-export const theme = createTheme({
+const theme = createTheme({
   palette: {
     primary: { main: '#1976d2' }, // Professional blue
     secondary: { main: '#dc004e' }, // Vibrant accent
@@ -18,3 +18,5 @@ export const theme = createTheme({
     },
   },
 });
+
+export default theme;
