@@ -26,6 +26,7 @@ const LoginForm = () => {
     <Box component="form" onSubmit={handleSubmit} sx={{ mt: 2 }}>
       <TextField
         label="Email"
+        name="email"
         fullWidth
         margin="normal"
         value={email}
@@ -33,6 +34,7 @@ const LoginForm = () => {
       />
       <TextField
         label="Password"
+        name="password"
         type="password"
         fullWidth
         margin="normal"
