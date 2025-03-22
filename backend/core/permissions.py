@@ -4,7 +4,7 @@ from rest_framework import permissions
 
 class IsLandlord(permissions.BasePermission):
     def has_permission(self, request, view):
-        return request.user.is_autheticated and request.user.is_landlord
+        return request.user.is_authenticated and request.user.is_landlord
     
 class IsObjectOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
