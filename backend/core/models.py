@@ -12,10 +12,23 @@ class User(AbstractUser):
     def __str__(self):
         return self.email
     
+class PropertyFacilities(models.Model):
+    facility_name = models.CharField(max_length=20)
+    # add icon to relate to facility name
+    
 class Property(models.Model):
+    NAMING_SYSTEM = (
+        ("001", "001"),
+        ("002", "002"),
+        ("003", "003")
+    )
     landlord = models.ForeignKey(User, on_delete=models.CASCADE, related_name='properties')
     name = models.CharField(max_length=255)
     address = models.TextField()
+    number_of_rooms = models.PositiveIntegerField(default=0)
+    number_of_floors = models.PositiveIntegerField(default=0)
+    rooms_naming_sytem = models.CharField(choices=NAMING_SYSTEM, default="001", max_length=10)
+    facilities = models.ForeignKey(PropertyFacilities, on_delete=models.CASCADE, related_name="facilities")
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -32,6 +45,8 @@ class Tenant(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True, null=True, blank=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
+    room_number = models.CharField(max_length=20) # add a way to query room number and floor number from property field
+    floor_number = models.PositiveIntegerField(default=0)
     move_in_date = models.DateField(blank=True, null=True)
     move_out_date = models.DateTimeField(default=timezone.now)
     created_at = models.DateTimeField(default=timezone.now)
