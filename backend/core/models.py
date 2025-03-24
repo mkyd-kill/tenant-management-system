@@ -4,7 +4,7 @@ from django.utils import timezone
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    is_landlord = models.BooleanField(default=False)
+    is_landlord = models.BooleanField(default=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
@@ -28,7 +28,7 @@ class Property(models.Model):
     number_of_rooms = models.PositiveIntegerField(default=0)
     number_of_floors = models.PositiveIntegerField(default=0)
     rooms_naming_sytem = models.CharField(choices=NAMING_SYSTEM, default="001", max_length=10)
-    facilities = models.ForeignKey(PropertyFacilities, on_delete=models.CASCADE, related_name="facilities")
+    facilities = models.ForeignKey(PropertyFacilities, on_delete=models.CASCADE, related_name="facilities", null=True, blank=True)
     created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
