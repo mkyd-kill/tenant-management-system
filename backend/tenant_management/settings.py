@@ -160,3 +160,10 @@ REST_FRAMEWORK = {
 # ]
 
 CORS_ALLOW_ALL_ORIGINS = True
+
+# session timeout period
+SESSION_COOKIE_AGE = 1800 # 30 minutes
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True # close session once browser closes
+
+SESSION_SAVE_EVERY_REQUEST = True # refresh session expiry time on each request
