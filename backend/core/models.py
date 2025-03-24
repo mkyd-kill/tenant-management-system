@@ -39,6 +39,12 @@ class Property(models.Model):
     def __str__(self):
         return f'{self.name} ({self.landlord.email})'
     
+# property inspection and condition reporting
+class PropertyInspection(models.Model):
+    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="inspection")
+    condition = models.TextField()
+    date = models.DateTimeField(auto_now_add=True)
+    
 # tenant rent payment model tracker
 class RentPayment(models.Model):
     amount = models.DecimalField(max_digits=8, decimal_places=2)
