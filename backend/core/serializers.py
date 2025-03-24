@@ -14,3 +14,8 @@ class TenantSerializer(serializers.ModelSerializer):
         model = Tenant
         fields = ['id', 'property_id', 'first_name', 'last_name', 'email', 'phone', 'move_in_date', 'move_out_date', 'created_at', 'updated_at']
         read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def send_rent_reminders():
+        tenants = Tenant.objects.all()
+        for tenant in tenants:
+            tenant.check_rent_due()
