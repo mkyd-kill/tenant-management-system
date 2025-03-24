@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Property, Tenant
+from .models import Property, Tenant, PropertyInspection
 
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
@@ -19,3 +19,8 @@ class TenantSerializer(serializers.ModelSerializer):
         tenants = Tenant.objects.all()
         for tenant in tenants:
             tenant.check_rent_due()
+
+class InspectionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PropertyInspection
+        fields = ['id', 'property_id', 'condition', 'date']
