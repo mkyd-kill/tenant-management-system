@@ -22,7 +22,7 @@ const SignupForm = () => {
           user: { email, username: email.split("@")[0] },
         })
       );
-      navigate("/dashboard");
+      navigate("/login");
     } catch (error) {
       console.error("Sign-up failed", error);
     }

@@ -12,8 +12,8 @@ const Sidebar = () => {
   ];
 
   return (
-    <Drawer variant="permanent" sx={{ width: 240, flexShrink: 0 }}>
-      <List sx={{ width: 240, mt: 8 }}>
+    <Drawer variant="permanent" sx={{ width: 200, flexShrink: 0 }}>
+      <List sx={{ width: 200, mt: 8 }}>
         {menuItems.map((item) => (
           <ListItem button key={item.text} onClick={() => navigate(item.path)}>
             <ListItemIcon>{item.icon}</ListItemIcon>
