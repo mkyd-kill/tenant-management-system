@@ -17,8 +17,11 @@ class User(AbstractUser):
         return self.email
     
 class PropertyFacilities(models.Model):
-    facility_name = models.CharField(max_length=20)
-    # add icon to relate to facility name
+    facility_name = models.CharField(max_length=50, unique=True)
+    facility_icon = models.CharField(max_length=20, blank=True, null=True)
+
+    def __self__(self):
+        return self.facility_name
     
 class Property(models.Model):
     NAMING_SYSTEM = (
