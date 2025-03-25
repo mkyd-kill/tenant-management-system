@@ -58,10 +58,16 @@ class PropertyInspection(models.Model):
     
 # tenant rent payment model tracker
 class RentPayment(models.Model):
-    amount = models.DecimalField(max_digits=8, decimal_places=2)
-    is_paid = models.BooleanField(default=False)
+    amount_due = models.DecimalField(max_digits=10, decimal_places=2)
+    amount_paid = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     due_date = models.DateField()
     last_paid = models.DateField(null=True, blank=True)
+
+    def is_fully_paid(self):
+        return self.amount_paid >= self.amount_due
+    
+    def __str__(self):
+        return f"Rent - {self.amount_due} (Paid: {self.amount_paid})"
     
 class Tenant(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='tenants')
