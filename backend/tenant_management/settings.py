@@ -169,3 +169,8 @@ SESSION_COOKIE_AGE = 1800 # 30 minutes
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True # close session once browser closes
 
 SESSION_SAVE_EVERY_REQUEST = True # refresh session expiry time on each request
+
+# session caching (redis)
+SESSION_ENGINE = "django.contrib.sessions.backends.cache"
+
+SESSION_CACHE_ALIAS = "default"
