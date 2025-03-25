@@ -8,7 +8,12 @@ class PropertySerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'created_at', 'updated_at']
 
 class TenantSerializer(serializers.ModelSerializer):
-    property_id = serializers.PrimaryKeyRelatedField(queryset=Property.objects.all(), source='property')
+    property_id = serializers.PrimaryKeyRelatedField(queryset=Property.objects.none(), source='property')
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.context['request'].user.is_authenticated:
+            self.fields['property_id'].queryset = Property.objects.filter(landlord=self.context['request'].user)
 
     class Meta:
         model = Tenant
