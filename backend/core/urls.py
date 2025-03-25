@@ -5,7 +5,7 @@ from .views import PropertyViewSet, TenantViewSet, InspectionViewSet
 router = DefaultRouter()
 router.register(r'properties', PropertyViewSet, basename='property')
 router.register(r'tenants', TenantViewSet, basename='tenant')
-router.register(r'inspection', InspectionViewSet, basename='inspection')
+router.register(r'inspections', InspectionViewSet, basename='inspection')
 
 urlpatterns = [
     path('', include(router.urls)),
