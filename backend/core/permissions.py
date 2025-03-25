@@ -10,6 +10,10 @@ class IsObjectOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj):
         if hasattr(obj, 'landlord'):
             return obj.landlord == request.user
-        elif hasattr(obj, 'property'):
+        
+        if hasattr(obj, 'property'):
             return obj.property.landlord == request.user
+        
+        if hasattr(obj, 'tenant'):
+            return obj.tenant.property.landlord == request.user
         return False
