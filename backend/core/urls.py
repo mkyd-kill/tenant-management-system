@@ -9,4 +9,8 @@ router.register(r'inspection', InspectionViewSet, basename='inspection')
 
 urlpatterns = [
     path('', include(router.urls)),
+
+    # authentication
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt'))
 ]
