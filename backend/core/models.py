@@ -52,6 +52,9 @@ class PropertyInspection(models.Model):
     property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name="inspection")
     condition = models.TextField()
     date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Inspection - {self.property.name} on {self.date.strftime('%Y-%m-%d')}"
     
 # tenant rent payment model tracker
 class RentPayment(models.Model):
