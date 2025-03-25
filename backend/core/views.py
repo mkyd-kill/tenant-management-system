@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from django.db.models import Prefetch
 from .models import Property, Tenant, PropertyInspection
 from .serializers import PropertySerializer, TenantSerializer, InspectionSerializer
 from .permissions import IsLandlord, IsObjectOwner
@@ -10,7 +11,7 @@ class PropertyViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsLandlord, IsObjectOwner]
 
     def get_queryset(self):
-        return Property.objects.filter(landlord=self.request.user)
+        return Property.objects.filter(landlord=self.request.user).prefetch_related('facilities')
     
     def perform_create(self, serializer):
         serializer.save(landlord=self.request.user)
@@ -21,10 +22,13 @@ class TenantViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsLandlord, IsObjectOwner]
 
     def get_queryset(self):
-        return Tenant.objects.filter(property__landlord=self.request.user)
+        return Tenant.objects.filter(property__landlord=self.request.user).select_related('property', 'rent')
     
     def perform_create(self, serializer):
-        serializer.save()
+        tenant = serializer.save()
+        if tenant.property.landlord != self.request.user:
+            tenant.delete()
+            raise PermissionError("You can only add tenants to your own properties")
 
 # property inspection viewset
 class InspectionViewSet(viewsets.ModelViewSet):
@@ -32,4 +36,4 @@ class InspectionViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsLandlord, IsObjectOwner]
 
     def get_queryset(self):
-        return PropertyInspection.objects.filter(property__landlord=self.request.user)
+        return PropertyInspection.objects.filter(property__landlord=self.request.user).select_related('property')
