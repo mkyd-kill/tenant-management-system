@@ -124,6 +124,8 @@ AUTH_USER_MODEL = 'core.User'
 DJOSER = {
     'USER_ID_FIELD': 'email',
     'LOGIN_FIELD': 'email',
+    'SEND_ACTIVATION_EMAIL': True,
+    'SEND_CONFIRMATION_EMAIL': True,
     'SERIALIZERS': {
         'user_create': 'djoser.serializers.UserCreateSerializer',
         'user': 'djoser.serializers.UserSerializer'
@@ -159,7 +161,7 @@ REST_FRAMEWORK = {
 #     'http://localhost:3000'
 # ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', cast=lambda x: [s.strip() for s in x.split(',')])
 
 # session timeout period
 SESSION_COOKIE_AGE = 1800 # 30 minutes
