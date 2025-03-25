@@ -75,19 +75,19 @@ class Tenant(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.EmailField(unique=True, null=True, blank=True)
     phone = models.CharField(max_length=15, blank=True, null=True)
-    room_number = models.CharField(max_length=20) # add a way to query room and floor number from property field
+    room_number = models.CharField(max_length=20)
     floor_number = models.PositiveIntegerField(default=0)
     move_in_date = models.DateField(blank=True, null=True)
-    move_out_date = models.DateTimeField(default=timezone.now)
-    rent = models.ForeignKey(RentPayment, on_delete=models.CASCADE, related_name="rent_payment")
-    created_at = models.DateTimeField(default=timezone.now)
+    move_out_date = models.DateTimeField(blank=True, null=True)
+    rent = models.OneToOneField(RentPayment, on_delete=models.CASCADE, related_name='tenant')
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    # automate rent reminders and late fees
-    def check_rent_due(self):
-        if self.rent.due_date < timezone.now().date() and (not self.rent.last_paid or self.rent.last_paid < self.rent.due_date):
-            # send mail/sms to tenant reminding them of their rent arrears
-            pass
+    class Meta:
+        ordering = ['-created_at']
+
+    def is_rent_due(self):
+        return self.rent.due_date < timezone.now().date() and (not self.rent.last_paid or self.rent.last_paid < self.rent.due_date)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} ({self.property.name})"
