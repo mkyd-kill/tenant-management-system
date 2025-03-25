@@ -35,13 +35,14 @@ class Property(models.Model):
     number_of_rooms = models.PositiveIntegerField(default=0)
     number_of_floors = models.PositiveIntegerField(default=0)
     rooms_naming_sytem = models.CharField(choices=NAMING_SYSTEM, default="001", max_length=10)
-    facilities = models.ForeignKey(PropertyFacilities, on_delete=models.CASCADE, related_name="facilities", null=True, blank=True)
-    created_at = models.DateTimeField(default=timezone.now)
+    facilities = models.ManyToManyField(PropertyFacilities, related_name="facilities", blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         # preventing duplicate property names per landlord
         unique_together = ('landlord', 'name')
+        indexes = [models.Index(fields=['landlord', 'name'])] # optimized for querying
 
     def __str__(self):
         return f'{self.name} ({self.landlord.email})'
