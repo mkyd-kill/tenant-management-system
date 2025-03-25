@@ -4,10 +4,14 @@ from django.utils import timezone
 
 class User(AbstractUser):
     email = models.EmailField(unique=True)
-    is_landlord = models.BooleanField(default=True)
+    is_landlord = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
+
+    def save(self, *args, **kwargs):
+        self.is_landlord = True
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.email
