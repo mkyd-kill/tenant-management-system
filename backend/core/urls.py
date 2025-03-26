@@ -16,5 +16,5 @@ urlpatterns = [
     path('auth/', include('djoser.urls.jwt')),
 
     # api documentation
-    path('openai/', get_schema_view(title="Tenant Management API", version="1.0"), name='openapi-schema'),
+    path('openapi/', get_schema_view(title="Tenant Management API", version="1.0"), name='openapi-schema'),
 ]
