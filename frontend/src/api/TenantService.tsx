@@ -1,12 +1,12 @@
-import axios from "axios";
+import { api } from "./_base";
 import { handleError } from "../helpers/ErrorHanlder";
 import { TenantGet, TenantPost } from "../models/Tenant";
 
-const baseUrl = "http://localhost:8000/api/tenants";
+const baseUrl = `${api}/tenants`;
 
 export const tenantAddAPI = async () => {
     try {
-        const data = await axios.post<TenantPost>(baseUrl);
+        const data = await api.post<TenantPost>(baseUrl);
         return data;
     } catch (error) {
         handleError(error);
@@ -15,7 +15,7 @@ export const tenantAddAPI = async () => {
 
 export const tenantDeleteAPI = async (id: number) => {
     try {
-        const data = await axios.delete<TenantPost>(`baseUrl/${id}`);
+        const data = await api.delete<TenantGet>(`${baseUrl}/${id}`);
         return data;
     } catch (error) {
         handleError(error);
@@ -24,7 +24,7 @@ export const tenantDeleteAPI = async (id: number) => {
 
 export const tenantGetAPI = async () => {
     try {
-        const data = await axios.get<TenantGet[]>(baseUrl);
+        const data = await api.get<TenantGet[]>(baseUrl);
         return data;
     } catch (error) {
         handleError(error);
@@ -33,7 +33,7 @@ export const tenantGetAPI = async () => {
 
 export const tenantGetOneAPI = async (id: number) => {
     try {
-        const data = await axios.get<TenantGet>(`baseUrl/${id}`);
+        const data = await api.get<TenantGet>(`${baseUrl}/${id}`);
         return data;
     } catch (error) {
         handleError(error);
