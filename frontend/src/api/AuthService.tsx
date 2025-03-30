@@ -1,5 +1,5 @@
 import { api } from "./_base";
-import { handleError } from "../helpers/ErrorHanlder";
+import { handleError } from "../helpers/ErrorHandler";
 import { UserProfileToken } from "../models/User";
 
 const baseUrl = `${api}/auth`;
