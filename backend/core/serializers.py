@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Property, Tenant, PropertyInspection
+from .models import Property, Tenant, PropertyInspection, PropertyFacilities
 
 class PropertySerializer(serializers.ModelSerializer):
     class Meta:
@@ -35,3 +35,10 @@ class InspectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = PropertyInspection
         fields = ['id', 'property_id', 'condition', 'date']
+        read_only_fields = ['id', 'property_id', 'date']
+
+class FacilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PropertyFacilities
+        fields = ['id', 'facility_name', 'facility_icon']
+        read_only_fields = ['id',]
