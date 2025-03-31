@@ -1,6 +1,7 @@
 from pathlib import Path
 from decouple import config
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -130,6 +131,8 @@ DJOSER = {
         'user_create': 'djoser.serializers.UserCreateSerializer',
         'user': 'djoser.serializers.UserSerializer'
     },
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=30)
 }
 
 # RestFramework
