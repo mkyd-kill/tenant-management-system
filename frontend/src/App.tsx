@@ -1,18 +1,16 @@
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { UserProvider } from "./context/useAuth";
 
 const App = () => {
   return (
-    // <Router>
-    //   <Routes>
-    //     <Route path="/login" />
-    //   </Routes>
-    // </Router>
-    <h3>Hello World</h3>
+    <>
+      <UserProvider>
+        <Outlet />
+        <ToastContainer />
+      </UserProvider>
+    </>
   );
 };
 
