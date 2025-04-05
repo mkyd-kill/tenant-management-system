@@ -1,5 +1,5 @@
 import { handleError } from "../helpers/ErrorHandler";
-import { UserProfileToken } from "../models/User";
+import { UserProfileToken, UserRegisterProfile } from "../models/User";
 import axios from "axios";
 
 const baseUrl = "http://localhost:8000/api/auth/";
@@ -18,11 +18,12 @@ export const loginAPI = async (email: string, password: string) => {
 
 export const registerAPI = async (username: string, email: string, password: string) => {
     try {
-        const data = await axios.post<UserProfileToken>(baseUrl + "users/", {
+        const data = await axios.post<UserRegisterProfile>(baseUrl + "users/", {
             username: username,
             email: email,
             password: password,
         });
+        console.log(data)
         return data;
     } catch (error) {
         handleError(error);
