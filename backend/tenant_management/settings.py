@@ -1,6 +1,5 @@
 from pathlib import Path
 from decouple import config
-import os
 from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -125,14 +124,17 @@ AUTH_USER_MODEL = 'core.User'
 DJOSER = {
     'USER_ID_FIELD': 'email',
     'LOGIN_FIELD': 'email',
-    'SEND_ACTIVATION_EMAIL': True,
-    'SEND_CONFIRMATION_EMAIL': True,
+    # 'SEND_ACTIVATION_EMAIL': True,
+    # 'SEND_CONFIRMATION_EMAIL': True,
     'SERIALIZERS': {
         'user_create': 'djoser.serializers.UserCreateSerializer',
         'user': 'djoser.serializers.UserSerializer'
     },
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=10),
-    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=30)
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=20)
 }
 
 # RestFramework
@@ -159,10 +161,6 @@ REST_FRAMEWORK = {
         'user': '1000/day'
     }
 }
-
-# CORS_ALLOWED_ORIGINS = [
-#     'http://localhost:3000'
-# ]
 
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', cast=lambda x: [s.strip() for s in x.split(',')])
 
