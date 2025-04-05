@@ -1,12 +1,12 @@
-import { api } from "./_base";
 import { handleError } from "../helpers/ErrorHandler";
 import { UserProfileToken } from "../models/User";
+import axios from "axios";
 
-const baseUrl = `${api}/auth`;
+const baseUrl = "http://localhost:8000/api/auth/";
 
 export const loginAPI = async (email: string, password: string) => {
     try {
-        const data = await api.post<UserProfileToken>(baseUrl + "jwt/create/", {
+        const data = await axios.post<UserProfileToken>(baseUrl + "jwt/create/", {
             email: email,
             password: password,
         });
@@ -18,7 +18,7 @@ export const loginAPI = async (email: string, password: string) => {
 
 export const registerAPI = async (username: string, email: string, password: string) => {
     try {
-        const data = await api.post<UserProfileToken>(baseUrl + "users/", {
+        const data = await axios.post<UserProfileToken>(baseUrl + "users/", {
             username: username,
             email: email,
             password: password,
