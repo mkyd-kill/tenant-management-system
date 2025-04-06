@@ -4,11 +4,12 @@ export type PropertyPost = {
 }
 
 export type PropertyGet = {
-    id: number,
-    name: string,
-    address: string,
-    created_at: string,
-    updated_at: string,
+    id: number;
+    name: string;
+    address: string;
+    created_at: string;
+    updated_at: string;
+    facilities?: Facility[];
 }
 
 export type Facility = {

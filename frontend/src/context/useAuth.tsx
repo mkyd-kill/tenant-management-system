@@ -27,10 +27,8 @@ export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    const token = localStorage.getItem("token");
-    if (user && token) {
-      setUser(JSON.parse(user));
+    const token = localStorage.getItem("accessToken");
+    if (token) {
       setToken(token);
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
     }
@@ -45,7 +43,6 @@ export const UserProvider = ({ children }: Props) => {
     await registerAPI(username, email, password)
       .then((res) => {
         if (res) {
-          console.log(res)
           toast.success("Registration Successfull!");
           navigate("/login");
         }
@@ -57,14 +54,8 @@ export const UserProvider = ({ children }: Props) => {
     await loginAPI(email, password)
       .then((res) => {
         if (res) {
-          localStorage.setItem("token", res?.data.token);
-          const userObj = {
-            userName: res?.data.userName,
-            email: res?.data.email,
-          };
-          localStorage.setItem("user", JSON.stringify(userObj));
-          setToken(res?.data.token);
-          setUser(userObj!);
+          localStorage.setItem("accessToken", res?.data.access);
+          setToken(res?.data.access);
           toast.success("Login Successfull!");
           navigate("/dashboard");
         }
@@ -77,8 +68,7 @@ export const UserProvider = ({ children }: Props) => {
   };
 
   const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
+    localStorage.removeItem("accessToken");
     setUser(null);
     setToken("");
     navigate("/");
