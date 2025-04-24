@@ -15,7 +15,7 @@ class User(AbstractUser):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        return self.email
+        return f"{self.email} : {self.first_name} {self.last_name}"
     
 class PropertyFacilities(models.Model):
     facility_name = models.CharField(max_length=50, unique=True)
@@ -44,9 +44,10 @@ class Property(models.Model):
         # preventing duplicate property names per landlord
         unique_together = ('landlord', 'name')
         indexes = [models.Index(fields=['landlord', 'name'])] # optimized for querying
+        verbose_name_plural = "Properties"
 
     def __str__(self):
-        return f'{self.name} ({self.landlord.email})'
+        return f'{self.name} ({self.landlord.email}): ({self.address})'
     
 # property inspection and condition reporting
 class PropertyInspection(models.Model):
