@@ -9,7 +9,8 @@ import axios from "axios";
 // user contex type
 type UserContextType = {
   user: UserProfile | null;
-  token: string | null;
+  accessToken: string | null;
+  refreshToken: string | null;
   registerUser: (email: string, username: string, password: string) => void;
   loginUser: (email: string, password: string) => void;
   logout: () => void;
@@ -22,17 +23,20 @@ const UserContext = createContext<UserContextType>({} as UserContextType);
 
 export const UserProvider = ({ children }: Props) => {
   const navigate = useNavigate();
-  const [token, setToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const user = localStorage.getItem("user");
-    const token = localStorage.getItem("accessToken");
-    if (user && token) {
+    const accessToken = localStorage.getItem("accessToken");
+    const refreshToken = localStorage.getItem("refreshToken");
+    if (user && accessToken && refreshToken) {
       setUser(JSON.parse(user));
-      setToken(token);
-      axios.defaults.headers.common["Authorization"] = "Bearer " + token;
+      setAccessToken(accessToken);
+      setRefreshToken(refreshToken);
+      axios.defaults.headers.common["Authorization"] = "Bearer " + accessToken;
       navigate("/dashboard");
     }
     setIsReady(true);
@@ -58,18 +62,21 @@ export const UserProvider = ({ children }: Props) => {
       .then((res) => {
         if (res) {
           localStorage.setItem("accessToken", res?.data.access);
+          localStorage.setItem("refreshToken", res?.data.refresh);
           const userObj = {
             userName: res?.data.userName,
             email: res?.data.email,
           };
           localStorage.setItem("user", JSON.stringify(userObj));
-          setToken(res?.data.access);
+          setAccessToken(res?.data.access);
           setUser(userObj!)
           toast.success("Login Successfull!");
           navigate("/dashboard");
+        } else {
+          toast.error("Invalid Login Credentials");
         }
       })
-      .catch((e) => toast.warning("Server error occured"));
+      .catch((e) => toast.error("Server error occured"));
   };
 
   const isLoggedIn = () => {
@@ -78,16 +85,17 @@ export const UserProvider = ({ children }: Props) => {
 
   const logout = () => {
     localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
     setUser(null);
-    setToken("");
+    setAccessToken("");
     toast.success("Logout Successfull!");
     navigate("/");
   };
 
   return (
     <UserContext.Provider
-      value={{ loginUser, user, token, logout, isLoggedIn, registerUser }}
+      value={{ loginUser, user, accessToken, refreshToken, logout, isLoggedIn, registerUser }}
     >
       {isReady ? children : null}
     </UserContext.Provider>
