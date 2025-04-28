@@ -1,12 +1,10 @@
-import React from "react";
+import Sidebar from "../sidebar/Sidebar";
 
 interface Props {}
 
 const Dashboard = (props: Props) => {
   return (
-    <>
-      <h2>You logged in successfull</h2>
-    </>
+    <Sidebar />
   );
 };
 
