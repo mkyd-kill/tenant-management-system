@@ -15,8 +15,9 @@
     "@hookform/resolvers": "^5.0.1",
     "@mui/material": "^6.4.8",
     "@reduxjs/toolkit": "^2.6.1",
-    "@tailwindcss/vite": "^4.1.4",
+    "@tailwindcss/cli": "^4.1.4",
     "axios": "^1.8.4",
+    "lucide-react": "^0.503.0",
     "postcss": "^8.5.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -26,6 +27,7 @@
     "react-router-dom": "^7.4.0",
     "react-spinners": "^0.15.0",
     "react-toastify": "^11.0.5",
+    "tailwindcss": "^4.1.4",
     "yup": "^1.6.1"
   },
   "devDependencies": {
