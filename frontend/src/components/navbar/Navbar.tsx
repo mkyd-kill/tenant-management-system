@@ -1,10 +1,7 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/useAuth";
 
-interface Props {}
-
-const Navbar = (props: Props) => {
+const Navbar = () => {
   const { isLoggedIn, user, logout } = useAuth();
 
   return (
@@ -20,7 +17,7 @@ const Navbar = (props: Props) => {
             <div className="hover:text-darkBlue">Welcome, {user?.userName}</div>
             <a
               onClick={logout}
-              className="px-8 py-3 font-bold rounded text-white bg-lightGreen hover:opacity-70"
+              className="px-8 py-3 font-bold rounded text-black bg-lightGreen hover:opacity-70"
             >
               Logout
             </a>
@@ -32,7 +29,7 @@ const Navbar = (props: Props) => {
             </Link>
             <Link
               to="/register"
-              className="px-8 py-3 font-bold rounded text-white bg-lightGreen hover:opacity-70">
+              className="px-8 py-3 font-bold rounded text-black bg-lightGreen hover:opacity-70">
               Signup
             </Link>
           </div>
