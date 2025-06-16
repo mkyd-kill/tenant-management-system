@@ -1,4 +1,5 @@
 import Footer from "@/components/footer/Footer";
+import { Services } from "@/components/service/Service";
 import Link from "next/link";
 
 export default function Home() {
@@ -26,8 +27,9 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="py-2">
+      <section className="py-2 m-2 rounded-xl">
         {/* services offered section */}
+        <Services />
       </section>
       <Footer />
     </div>
