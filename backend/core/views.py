@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Prefetch
 from .models import Property, Tenant, PropertyInspection
-from .serializers import PropertySerializer, TenantSerializer, InspectionSerializer, FacilitySerializer
+from .serializers import PropertySerializer, TenantSerializer, InspectionSerializer
 from .permissions import IsLandlord, IsObjectOwner
 
 # CRUD operations for properties scoped to the logged-in landlord
@@ -37,8 +37,3 @@ class InspectionViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return PropertyInspection.objects.filter(property__landlord=self.request.user).select_related('property')
-    
-# property facility viewset
-class FacilityViewSet(viewsets.ModelViewSet):
-    serializer_class = FacilitySerializer
-    permission_classes = [IsAuthenticated, IsLandlord, IsObjectOwner]

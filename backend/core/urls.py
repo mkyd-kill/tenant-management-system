@@ -1,13 +1,12 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.schemas import get_schema_view
-from .views import PropertyViewSet, TenantViewSet, InspectionViewSet, FacilityViewSet
+from .views import PropertyViewSet, TenantViewSet, InspectionViewSet
 
 router = DefaultRouter()
 router.register(r'properties', PropertyViewSet, basename='property')
 router.register(r'tenants', TenantViewSet, basename='tenant')
 router.register(r'inspections', InspectionViewSet, basename='inspection')
-router.register(r'facilities', FacilityViewSet, basename='facility')
 
 urlpatterns = [
     path('', include(router.urls)),
