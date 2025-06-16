@@ -4,7 +4,8 @@ import Navbar from "@/components/navbar/Navbar";
 
 export const metadata: Metadata = {
   title: "Homr Management System",
-  description: "A simplied web application for landlords to manage their properties, landlords and staffs at the comport of their homes",
+  description:
+    "A simplied web application for landlords to manage their properties, landlords and staffs at the comport of their homes",
 };
 
 export default function RootLayout({
@@ -16,8 +17,8 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <Navbar />
-        {children}
-        </body>
+        <main className="m-2 p-2">{children}</main>
+      </body>
     </html>
   );
 }
