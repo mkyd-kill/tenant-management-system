@@ -11,7 +11,7 @@ export const Services = () => {
 
       <div className="flex flex-grow text-center px-5 py-2">
         <p className="flex-grow text-[#525252]">
-            At Homr Management, we offer a range of professional up-to date management services tailored to meet your unique needs. We strive to exceed your expectations, delivering not just services but boss-like experience to you at the comport of your home.
+            At Homr Management, we strive to exceed your expectations, delivering not just services but boss-like experience to you at the comport of your home.
         </p>
       </div>
 
