@@ -17,12 +17,13 @@ class User(AbstractUser):
     def __str__(self):
         return f"{self.email} : {self.first_name} {self.last_name}"
     
-class PropertyFacilities(models.Model):
-    facility_name = models.CharField(max_length=50, unique=True)
-    facility_icon = models.CharField(max_length=20, blank=True, null=True)
+class Staff(models.Model):
+    landlord = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=100)
+    role = models.CharField(max_length=100)
 
-    def __self__(self):
-        return self.facility_name
+    def __str__(self):
+        return f"{self.name} : {self.role}"
     
 class Property(models.Model):
     NAMING_SYSTEM = (
@@ -33,10 +34,9 @@ class Property(models.Model):
     landlord = models.ForeignKey(User, on_delete=models.CASCADE, related_name='properties')
     name = models.CharField(max_length=255)
     address = models.TextField()
-    number_of_rooms = models.PositiveIntegerField(default=0)
-    number_of_floors = models.PositiveIntegerField(default=0)
+    rooms = models.PositiveIntegerField(default=0)
+    floors = models.PositiveIntegerField(default=0)
     rooms_naming_sytem = models.CharField(choices=NAMING_SYSTEM, default="001", max_length=10)
-    facilities = models.ManyToManyField(PropertyFacilities, related_name="facilities", blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
