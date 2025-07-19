@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Property, Tenant, User
+from .models import Property, Tenant, User, Staff
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
@@ -9,3 +9,4 @@ class UserAdmin(admin.ModelAdmin):
 
 admin.site.register(Property)
 admin.site.register(Tenant)
+admin.site.register(Staff)
