@@ -16,4 +16,7 @@ class IsObjectOwner(permissions.BasePermission):
         
         if hasattr(obj, 'tenant'):
             return obj.tenant.property.landlord == request.user
+        
+        if hasattr(obj, 'staff'):
+            return obj.staff.landlord == request.user
         return False
