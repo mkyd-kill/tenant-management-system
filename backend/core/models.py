@@ -19,6 +19,7 @@ class User(AbstractUser):
     
 class Staff(models.Model):
     landlord = models.ForeignKey(User, on_delete=models.CASCADE)
+    property = models.ForeignKey("Property", on_delete=models.CASCADE)
     name = models.CharField(max_length=100)
     role = models.CharField(max_length=100)
 
