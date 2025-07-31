@@ -1,1 +1,0 @@
-# Tenant Management System [TypeScript + Django]
