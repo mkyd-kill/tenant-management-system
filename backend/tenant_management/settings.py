@@ -169,7 +169,7 @@ REST_FRAMEWORK = {
     }
 }
 
-CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', cast=lambda x: [s.strip() for s in x.split(',')])
+CORS_ORIGIN_WHITELIST = config('CORS_ALLOWED_ORIGINS', cast=lambda x: [s.strip() for s in x.split(',')])
 
 # session timeout period
 SESSION_COOKIE_AGE = 1800 # 30 minutes
