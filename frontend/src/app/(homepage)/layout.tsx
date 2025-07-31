@@ -12,11 +12,11 @@ export default function AuthLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="relative p-4 bg-white z-1 dark:bg-gray-900 sm:p-0">
+    <div className="relative p-2 bg-white z-1 dark:bg-gray-900 sm:p-0">
       <ThemeProvider>
         <UserProvider>
           <Navbar />
-          <div className="mt-3 relative flex lg:flex-row w-full h-screen flex-col dark:bg-gray-900 sm:p-0">
+          <div className="mt-3 relative flex lg:flex-row w-full flex-col dark:bg-gray-900 sm:p-0">
             <ToastContainer autoClose={2000} />
             {children}
             <div className="fixed bottom-6 right-6 z-50 hidden sm:block">
