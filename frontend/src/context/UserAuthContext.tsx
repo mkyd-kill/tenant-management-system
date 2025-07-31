@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { createContext, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
@@ -6,6 +7,7 @@ import { toast } from "react-toastify";
 import { UserProfile } from "@/type/model";
 import { loginAPI, registerAPI } from "@/services/authAPI";
 import { jwtDecode } from "jwt-decode";
+import api from "@/server/api";
 
 type UserContextType = {
   user: UserProfile | null;
@@ -26,28 +28,27 @@ export const UserProvider = ({ children }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    const access = localStorage.getItem("token-access");
+    async function loadUser() {
+      const access: any = localStorage.getItem("token-access");
 
-    if (access) {
       try {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const decode: any = jwtDecode(access);
         const now = Math.floor(Date.now() / 1000);
 
         if (decode.exp > now) {
-          setUser(decode.sub);
+          const res = await api.get("/auth/users/me");
+          setUser(res.data);
         } else {
-          throw new Error("Token Expired");
+          setUser(null);
         }
       } catch {
         localStorage.removeItem("token-access");
-        router.push("/signin");
+      } finally {
+        setIsReady(true);
       }
-    } else {
-      router.push("/signin");
     }
 
-    setIsReady(true);
+    loadUser();
   }, [router]);
 
   const registerUser = async (
