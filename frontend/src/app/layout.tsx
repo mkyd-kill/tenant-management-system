@@ -1,12 +1,15 @@
-import type { Metadata } from "next";
-import "./globals.css";
-import Navbar from "@/components/navbar/Navbar";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import { Outfit } from 'next/font/google';
+import './globals.css';
 
-export const metadata: Metadata = {
-  title: "Homr Management System",
-  description:
-    "A simplied web application for landlords to manage their properties, landlords and staffs at the comport of their homes",
-};
+import { SidebarProvider } from '@/context/SidebarContext';
+import { ThemeProvider } from '@/context/ThemeContext';
+import { UserProvider } from '@/context/UserAuthContext';
+
+const outfit = Outfit({
+  subsets: ["latin"],
+});
 
 export default function RootLayout({
   children,
@@ -15,9 +18,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
-        <Navbar />
-        <main className="m-2 p-2">{children}</main>
+      <body className={`${outfit.className} dark:bg-gray-900`}>
+        <UserProvider>
+          <ThemeProvider>
+            <SidebarProvider>
+              <ToastContainer autoClose={2000} />
+              {children}
+            </SidebarProvider>
+          </ThemeProvider>
+        </UserProvider>
       </body>
     </html>
   );
