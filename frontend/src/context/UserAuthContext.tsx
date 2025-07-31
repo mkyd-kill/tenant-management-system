@@ -23,7 +23,6 @@ const UserContext = createContext<UserContextType>({} as UserContextType);
 
 export const UserProvider = ({ children }: Props) => {
   const [isReady, setIsReady] = useState(false);
-  const [accessToken, setAccessToken] = useState("");
   const [user, setUser] = useState<UserProfile | null>(null);
   const router = useRouter();
 
@@ -36,18 +35,24 @@ export const UserProvider = ({ children }: Props) => {
         const now = Math.floor(Date.now() / 1000);
 
         if (decode.exp > now) {
-          const res = await api.get("/auth/users/me");
+          const res = await api.get(
+            "/auth/users/me",
+            {
+              headers: {
+                "Authorization": `Bearer ${access}`,
+              }
+            }
+          )
           setUser(res.data);
         } else {
           setUser(null);
         }
       } catch {
-        localStorage.removeItem("token-access");
+        localStorage.setItem("token-access", "");
       } finally {
         setIsReady(true);
       }
     }
-
     loadUser();
   }, [router]);
 
@@ -69,11 +74,10 @@ export const UserProvider = ({ children }: Props) => {
   const loginUser = async (email: string, password: string) => {
     try {
       const res = await loginAPI(email, password);
-      if (res?.status === 200) {
-        setAccessToken(res.data.access);
 
+      if (res.status === 200) {
         // set tokens to storage
-        localStorage.setItem("token-access", accessToken);
+        localStorage.setItem("token-access", res.data.access);
 
         router.push("profile");
         toast.success("Login Successfull");
@@ -81,7 +85,7 @@ export const UserProvider = ({ children }: Props) => {
         toast.error("Invalid Login Credentials");
       }
     } catch {
-      toast.error("Failed to Login");
+      toast.error("Network Error");
     }
   };
 

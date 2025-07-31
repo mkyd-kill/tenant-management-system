@@ -11,12 +11,13 @@ export default function ProtectedRoute ({ children }: { children: React.ReactNod
 
     useEffect(() => {
         if (!isLoggedIn()) {
-            router.push("signin");
+            router.push("/signin");
             toast.warning("Authentication Required");
         } else {
             setChecked(true);
         }
-    }, [isLoggedIn, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return checked ? <>{ children }</> : null;
 }
