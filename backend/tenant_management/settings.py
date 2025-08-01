@@ -16,7 +16,6 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', cast=lambda x: [s.strip() for s in x.split(',')])
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -35,13 +34,13 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'tenant_management.urls'
@@ -139,6 +138,14 @@ DJOSER = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=20),
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'UPDATE_LAST_LOGIN': False,
+
+    # encryption algorithm
+    'ALGORITHM': 'HS256',
+
+    'JTI_CLAIM': 'jti',
 
     'AUTH_HEADER_TYPES': ('Bearer', ),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
@@ -169,14 +176,9 @@ REST_FRAMEWORK = {
     }
 }
 
-CORS_ORIGIN_WHITELIST = config('CORS_ALLOWED_ORIGINS', cast=lambda x: [s.strip() for s in x.split(',')])
+CORS_ALLOW_CREDENTIALS = True
 
-# session timeout period
-SESSION_COOKIE_AGE = 1800 # 30 minutes
-
-SESSION_EXPIRE_AT_BROWSER_CLOSE = True # close session once browser closes
-
-SESSION_SAVE_EVERY_REQUEST = True # refresh session expiry time on each request
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED_ORIGINS', cast=lambda x: [s.strip() for s in x.split(',')])
 
 # session caching (redis)
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"

@@ -27,7 +27,7 @@ export const UserProvider = ({ children }: Props) => {
   const router = useRouter();
 
   useEffect(() => {
-    async function loadUser() {
+    const loadUser = async () => {
       const access: any = localStorage.getItem("token-access");
 
       try {
@@ -35,20 +35,19 @@ export const UserProvider = ({ children }: Props) => {
         const now = Math.floor(Date.now() / 1000);
 
         if (decode.exp > now) {
-          const res = await api.get(
-            "/auth/users/me",
-            {
-              headers: {
-                "Authorization": `Bearer ${access}`,
-              }
-            }
-          )
-          setUser(res.data);
+          // set bearer header to axios api
+          api.defaults.headers.common["Authorization"] = `Bearer ${access}`;
+
+          const res = await api.get("/auth/users/me");
+          if (res.status === 200) {
+            setUser(res.data);
+            router.push("/");
+          }
         } else {
-          setUser(null);
+          localStorage.setItem("token-access", "");
         }
       } catch {
-        localStorage.setItem("token-access", "");
+        setUser(null);
       } finally {
         setIsReady(true);
       }
@@ -76,16 +75,19 @@ export const UserProvider = ({ children }: Props) => {
       const res = await loginAPI(email, password);
 
       if (res.status === 200) {
+        const { access } = res.data;
         // set tokens to storage
-        localStorage.setItem("token-access", res.data.access);
+        localStorage.setItem("token-access", access);
 
-        router.push("profile");
+        api.defaults.headers.common["Authorization"] = `Bearer ${access}`;
+
+        router.push("/");
         toast.success("Login Successfull");
       } else {
         toast.error("Invalid Login Credentials");
       }
     } catch {
-      toast.error("Network Error");
+      toast.error("Resource Network Error");
     }
   };
 
