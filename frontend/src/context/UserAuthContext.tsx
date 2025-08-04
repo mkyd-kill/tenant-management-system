@@ -22,7 +22,6 @@ type Props = { children: React.ReactNode };
 const UserContext = createContext<UserContextType>({} as UserContextType);
 
 export const UserProvider = ({ children }: Props) => {
-  const [isReady, setIsReady] = useState(false);
   const [user, setUser] = useState<UserProfile | null>(null);
   const router = useRouter();
 
@@ -48,8 +47,6 @@ export const UserProvider = ({ children }: Props) => {
         }
       } catch {
         setUser(null);
-      } finally {
-        setIsReady(true);
       }
     }
     loadUser();
@@ -93,7 +90,6 @@ export const UserProvider = ({ children }: Props) => {
 
   const logout = async () => {
     setUser(null);
-    setIsReady(false);
     localStorage.removeItem("token-access");
     router.push("signin");
     toast.success("Logged Out Successfull");
@@ -111,7 +107,7 @@ export const UserProvider = ({ children }: Props) => {
         isLoggedIn,
       }}
     >
-      {isReady ? children : null}
+      { children }
     </UserContext.Provider>
   );
 };
