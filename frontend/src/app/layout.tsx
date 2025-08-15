@@ -1,15 +1,9 @@
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
-import { Outfit } from 'next/font/google';
-import './globals.css';
-
 import { SidebarProvider } from '@/context/SidebarContext';
 import { ThemeProvider } from '@/context/ThemeContext';
 import { UserProvider } from '@/context/UserAuthContext';
-
-const outfit = Outfit({
-  subsets: ["latin"],
-});
+import './globals.css';
 
 export default function RootLayout({
   children,
@@ -18,7 +12,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} dark:bg-gray-900`}>
+      <body className="dark:bg-gray-900">
         <UserProvider>
           <ThemeProvider>
             <SidebarProvider>
